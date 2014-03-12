@@ -1,0 +1,96 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rightMenuPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="#ffffff" >
+
+        <include
+            android:id="@+id/ic_rightslidemenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/rightslidemenu" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/leftMenuPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff393c46"
+        android:gravity="left"
+        android:orientation="vertical"
+        android:textColor="#ff0000" >
+
+        <!-- include -->
+
+        <include
+            android:id="@+id/ic_leftslidemenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/leftslidemenu" />
+    </LinearLayout>
+
+    <!-- slide layout -->
+
+    <LinearLayout
+        android:id="@+id/slidingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:gravity="left"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <RelativeLayout
+                android:id="@+id/ll_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff" >
+
+                <Button
+                    android:id="@+id/bt_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Left" />
+
+                <Button
+                    android:id="@+id/bt_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="right" />
+                
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bt_left"
+                     android:divider="@android:color/transparent"
+				     android:dividerHeight="20dp"
+				     android:layout_marginTop="3dp"
+				     android:padding="10dp"
+				     android:background="#0000"
+				     android:cacheColorHint="#000000"
+				     android:scrollbars="none" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_empty"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@android:color/transparent"
+                android:orientation="horizontal" />
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>
