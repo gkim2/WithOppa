@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity implements OnGestureListener {
 	 
 	/* slide menu */
 	private DisplayMetrics metrics;
@@ -31,7 +33,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private int panelWidth;
 	private static boolean isLeftExpanded;
 	public static boolean isRightExpanded;
-	private Button bt_left, bt_right;
+	private GestureDetectorCompat gesturedetector;
 
 	ListView list;
 	MyAdapter adapter;
@@ -46,10 +48,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		panelWidth = (int) ((metrics.widthPixels) * 0.75);
 
-		bt_left = (Button) findViewById(R.id.bt_left);
-		bt_right = (Button) findViewById(R.id.bt_right);
-		bt_left.setOnClickListener(this);
-		bt_right.setOnClickListener(this);
 		View ic_leftslidemenu = (View) findViewById(R.id.ic_leftslidemenu);
 		// sliding view Initialize
 		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
@@ -226,19 +224,54 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	
+	//OnGestureListener 메소드
+	
 	@Override
-	public void onClick(View v) {
+	public boolean onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		this.gesturedetector.onTouchEvent(event);
+		return super.onTouchEvent(event);
+	}
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-		switch (v.getId()) {
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-		case R.id.bt_left:
-			menuLeftSlideAnimationToggle();
-			break;
-		case R.id.bt_right:
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		if(isLeftExpanded!=true && isRightExpanded!=true && distanceX>40 && distanceY<50 && distanceY>-50){
 			menuRightSlideAnimationToggle();
-			break;
-
+		}else if(isRightExpanded!=true && isLeftExpanded!=true && distanceX<-40 && distanceY<50 && distanceY>-50){
+			menuLeftSlideAnimationToggle();
 		}
+		return true;
+	}
 
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
