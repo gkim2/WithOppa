@@ -7,15 +7,22 @@
     <uses-sdk
         android:minSdkVersion="13"
         android:targetSdkVersion="19" />
+<!-- Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="js.withoppa.MainActivity"
-            android:label="@string/app_name" >
+            android:name="js.withoppa.MainActivity" >
+        </activity>
+        <activity
+            android:name="js.withoppa.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

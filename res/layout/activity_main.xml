@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:background="#ffffff" >
+        android:background="#ffc0cb" >
 
         <include
             android:id="@+id/ic_rightslidemenu"
@@ -22,7 +22,7 @@
         android:id="@+id/leftMenuPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ff393c46"
+        android:background="#ffc0cb"
         android:gravity="left"
         android:orientation="vertical"
         android:textColor="#ff0000" >
@@ -42,7 +42,6 @@
         android:id="@+id/slidingPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
         android:gravity="left"
         android:orientation="vertical" >
 
@@ -54,7 +53,7 @@
                 android:id="@+id/ll_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff" >
+                android:background="#ffc0cb" >
 
                 <Button
                     android:id="@+id/bt_left"
@@ -78,7 +77,6 @@
 				     android:dividerHeight="20dp"
 				     android:layout_marginTop="3dp"
 				     android:padding="10dp"
-				     android:background="#0000"
 				     android:cacheColorHint="#000000"
 				     android:scrollbars="none" />
 
