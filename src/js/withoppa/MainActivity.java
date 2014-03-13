@@ -47,6 +47,8 @@ public class MainActivity extends Activity implements OnGestureListener {
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		panelWidth = (int) ((metrics.widthPixels) * 0.75);
+		
+		gesturedetector = new GestureDetectorCompat(this, this);
 
 		View ic_leftslidemenu = (View) findViewById(R.id.ic_leftslidemenu);
 		// sliding view Initialize
