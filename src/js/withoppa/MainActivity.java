@@ -2,19 +2,21 @@ package js.withoppa;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
+import android.transition.ChangeBounds;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,8 +35,14 @@ public class MainActivity extends Activity implements OnGestureListener {
 	private int panelWidth;
 	private static boolean isLeftExpanded;
 	public static boolean isRightExpanded;
-	private GestureDetectorCompat gesturedetector;
-
+	private GestureDetector gesturedetector;
+	
+	int position = 0;
+	float firstX;
+	float firstY;
+	float lastX;
+	float lastY;
+	
 	ListView list;
 	MyAdapter adapter;
 	ArrayList<MyData> arrData;
@@ -48,8 +56,6 @@ public class MainActivity extends Activity implements OnGestureListener {
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		panelWidth = (int) ((metrics.widthPixels) * 0.75);
 		
-		gesturedetector = new GestureDetectorCompat(this, this);
-
 		View ic_leftslidemenu = (View) findViewById(R.id.ic_leftslidemenu);
 		// sliding view Initialize
 		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
@@ -81,6 +87,18 @@ public class MainActivity extends Activity implements OnGestureListener {
         //리스트뷰에 어댑터 연결
         list = (ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
+        
+        gesturedetector = new GestureDetector(this, this, null);
+        
+        View.OnTouchListener onGesturedetector = new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				return gesturedetector.onTouchEvent(event);
+			}
+		};
+        
+        list.setOnTouchListener(onGesturedetector);
 		
 	}
 
@@ -235,9 +253,9 @@ public class MainActivity extends Activity implements OnGestureListener {
 		this.gesturedetector.onTouchEvent(event);
 		return super.onTouchEvent(event);
 	}
+	
 	@Override
 	public boolean onDown(MotionEvent e) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -259,8 +277,16 @@ public class MainActivity extends Activity implements OnGestureListener {
 			float distanceY) {
 		if(isLeftExpanded!=true && isRightExpanded!=true && distanceX>40 && distanceY<50 && distanceY>-50){
 			menuRightSlideAnimationToggle();
+			Log.e("Right", "Right");
 		}else if(isRightExpanded!=true && isLeftExpanded!=true && distanceX<-40 && distanceY<50 && distanceY>-50){
 			menuLeftSlideAnimationToggle();
+			Log.e("Left", "Left");
+		}else if(distanceY>80 && distanceX<50 && distanceX>-50){
+			upScroll();
+			Log.e("up", "up");
+		}else if(distanceY<-80 && distanceX<50 && distanceX>-50){
+			downScroll();
+			Log.e("down", "down");
 		}
 		return true;
 	}
@@ -268,12 +294,37 @@ public class MainActivity extends Activity implements OnGestureListener {
 	@Override
 	public void onShowPress(MotionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		if(ev.getAction()==MotionEvent.ACTION_DOWN){
+			firstX = ev.getX(); 
+		}else if(ev.getAction()==MotionEvent.ACTION_UP){
+			lastX = ev.getX();
+			if(Math.abs(firstX - lastX) > 40){
+				
+			}else if(Math.abs(firstX - lastX) < 40){
+				
+			}
+		}
+		
+		return super.dispatchTouchEvent(ev);
+	}
+	
+	//뷰스크롤
+	public void upScroll(){
+		
+		
+	}
+	
+	public void downScroll(){
+		
 	}
 }
