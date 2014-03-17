@@ -1,30 +1,34 @@
 package js.withoppa;
 
-import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+
 import android.os.Bundle;
-import android.support.v4.view.GestureDetectorCompat;
-import android.transition.ChangeBounds;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnGestureListener {
+public class MainActivity extends FragmentActivity implements OnClickListener{
 	 
-	/* slide menu */
+	//좌우메뉴 맴버필드
+	boolean toggleLimit;
+	float firstX;
+	float firstY;
+	float lastX;
+	float lastY;
+	
 	private DisplayMetrics metrics;
 	private LinearLayout slidingPanel;
 	private LinearLayout leftMenuPanel;
@@ -35,17 +39,13 @@ public class MainActivity extends Activity implements OnGestureListener {
 	private int panelWidth;
 	private static boolean isLeftExpanded;
 	public static boolean isRightExpanded;
-	private GestureDetector gesturedetector;
 	
-	int position = 0;
-	float firstX;
-	float firstY;
-	float lastX;
-	float lastY;
+	//프레그먼트 맴버필드
+	int fragmentIndex;
+	public final static int FRAGMENT_LIST = 0;
+	public final static int FRAGMENT_TEST = 1;
 	
-	ListView list;
-	MyAdapter adapter;
-	ArrayList<MyData> arrData;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,66 +57,44 @@ public class MainActivity extends Activity implements OnGestureListener {
 		panelWidth = (int) ((metrics.widthPixels) * 0.75);
 		
 		View ic_leftslidemenu = (View) findViewById(R.id.ic_leftslidemenu);
-		// sliding view Initialize
+		//슬라이드뷰 초기설정
 		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
 		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel
 				.getLayoutParams();
 		slidingPanelParameters.width = metrics.widthPixels;
 		slidingPanel.setLayoutParams(slidingPanelParameters);
 
-		// left slide menu initialize
+		// left 메뉴 초기설정
 		leftMenuPanel = (LinearLayout) findViewById(R.id.leftMenuPanel);
 		leftMenuPanelParameters = (FrameLayout.LayoutParams) leftMenuPanel
 				.getLayoutParams();
 		leftMenuPanelParameters.width = panelWidth;
 		leftMenuPanel.setLayoutParams(leftMenuPanelParameters);
 
-		// right slide menu initialize
+		// right 메뉴 초기설정
 		rightMenuPanel = (RelativeLayout) findViewById(R.id.rightMenuPanel);
 		rightMenuPanelParameters = (FrameLayout.LayoutParams) rightMenuPanel
 				.getLayoutParams();
 		rightMenuPanelParameters.width = panelWidth;
 		rightMenuPanel.setLayoutParams(rightMenuPanelParameters);
 
-		//리스트에 보여줄 데이터를 세팅한다.
-        setData();
+        //프레그먼트 초기설정
+        fragmentIndex = FRAGMENT_LIST;
+        fragmentReplace(fragmentIndex);
+        //버튼 리스너 등록
+        TextView test1Btn = (TextView) findViewById(R.id.test1_btn);
+        test1Btn.setOnClickListener(this);
+		TextView test2Btn = (TextView) findViewById(R.id.test2_btn);
+		test2Btn.setOnClickListener(this);
         
-        //어댑터 생성
-        adapter = new MyAdapter(this, arrData);
-        
-        //리스트뷰에 어댑터 연결
-        list = (ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
-        
-        gesturedetector = new GestureDetector(this, this, null);
-        
-        View.OnTouchListener onGesturedetector = new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				return gesturedetector.onTouchEvent(event);
-			}
-		};
-        
-        list.setOnTouchListener(onGesturedetector);
-		
 	}
 
-	 private void setData(){
-	     arrData = new ArrayList<MyData>();
-	     arrData.add(new MyData(R.drawable.h1, "내친구동생여친", "어제 2시쯤", "길가다 효주봄ㅇㅇ"));
-	     arrData.add(new MyData(R.drawable.h2, "지나가다안사람", "그제 5시", "길가다 효주봄ㅇㅇ"));
-	     arrData.add(new MyData(R.drawable.h3, "님이라는글자", "그제 3시", "길가다 효주봄ㅇㅇ"));
-	    }
-	
 	/**
 	 * 좌측 메뉴 토글시 처리
 	 */
 	void menuLeftSlideAnimationToggle() {
 
 		if (!isLeftExpanded) {
-
-			// networkRequestTimeLineGetNewCnt();
 
 			isLeftExpanded = true;
 			rightMenuPanel.setVisibility(View.GONE);
@@ -128,8 +106,7 @@ public class MainActivity extends Activity implements OnGestureListener {
 					Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
 
 			// disable all of main view
-			// LinearLayout viewGroup = (LinearLayout) findViewById(
-			FrameLayout viewGroup = (FrameLayout) findViewById(R.id.ll_fragment)
+			FrameLayout viewGroup = (FrameLayout)findViewById(R.id.ll_fragment)
 					.getParent();
 			enableDisableViewGroup(viewGroup, false);
 
@@ -157,7 +134,6 @@ public class MainActivity extends Activity implements OnGestureListener {
 					TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
 
 			// enable all of main view
-			// LinearLayout viewGroup = (LinearLayout) findViewById(
 			FrameLayout viewGroup = (FrameLayout) findViewById(R.id.ll_fragment)
 					.getParent();
 			enableDisableViewGroup(viewGroup, true);
@@ -169,6 +145,7 @@ public class MainActivity extends Activity implements OnGestureListener {
 
 		}
 	}
+	
 
 	/**
 	 * 오른쪽 메뉴 토글에 대한 처리
@@ -244,87 +221,85 @@ public class MainActivity extends Activity implements OnGestureListener {
 		}
 	}
 
-	
-	//OnGestureListener 메소드
-	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
-		this.gesturedetector.onTouchEvent(event);
-		return super.onTouchEvent(event);
-	}
-	
-	@Override
-	public boolean onDown(MotionEvent e) {
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-		if(isLeftExpanded!=true && isRightExpanded!=true && distanceX>40 && distanceY<50 && distanceY>-50){
-			menuRightSlideAnimationToggle();
-			Log.e("Right", "Right");
-		}else if(isRightExpanded!=true && isLeftExpanded!=true && distanceX<-40 && distanceY<50 && distanceY>-50){
-			menuLeftSlideAnimationToggle();
-			Log.e("Left", "Left");
-		}else if(distanceY>80 && distanceX<50 && distanceX>-50){
-			upScroll();
-			Log.e("up", "up");
-		}else if(distanceY<-80 && distanceX<50 && distanceX>-50){
-			downScroll();
-			Log.e("down", "down");
-		}
-		return true;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
+	//좌우메뉴
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if(ev.getAction()==MotionEvent.ACTION_DOWN){
 			firstX = ev.getX(); 
+			firstY = ev.getY(); 
 		}else if(ev.getAction()==MotionEvent.ACTION_UP){
 			lastX = ev.getX();
-			if(Math.abs(firstX - lastX) > 40){
-				
-			}else if(Math.abs(firstX - lastX) < 40){
-				
+			lastY = ev.getY();
+			//스크롤 방지
+			if(isRightExpanded!=true && isLeftExpanded!=true && firstY-lastY<40 && firstY-lastY>-40){
+				toggleLimit = true;
+			}else{
+				toggleLimit = false;
+			}
+			
+			if((firstX - lastX)>40 && toggleLimit){
+				menuRightSlideAnimationToggle();
+				Log.e("Right", "Right");
+			}else if((firstX - lastX)<-40 && toggleLimit){
+				menuLeftSlideAnimationToggle();
+				Log.e("Left", "Left");
 			}
 		}
 		
 		return super.dispatchTouchEvent(ev);
 	}
 	
-	//뷰스크롤
-	public void upScroll(){
+	//프레그먼트 설정 
+	public void fragmentReplace(int replaceIndex) {
+
+		Fragment newFragment = getFragment(replaceIndex);
+
+		final FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+
+		transaction.replace(R.id.ll_fragment, newFragment);
+
+		transaction.commit();
 		
+	}
+	//프레그먼트 생성
+	public Fragment getFragment(int index){
+		
+		Fragment newFragment = null;
+		
+		switch (index) {
+		case 0:
+			newFragment = new FragmentList();
+			if(isLeftExpanded){
+				menuLeftSlideAnimationToggle();
+			}
+			break;
+
+		case 1:
+			newFragment = new FragmentTest();
+			if(isLeftExpanded){
+				menuLeftSlideAnimationToggle();
+			}
+			break;
+		}
+		return newFragment;
+	}
+	
+	@Override
+	public void onClick(View v) {
+		
+		switch (v.getId()) {
+
+		case R.id.test1_btn:
+			fragmentIndex = FRAGMENT_LIST;
+			fragmentReplace(fragmentIndex);
+			break;
+		case R.id.test2_btn:
+			fragmentIndex = FRAGMENT_TEST;
+			fragmentReplace(fragmentIndex);
+			break;
+		}
 		
 	}
 	
-	public void downScroll(){
-		
-	}
 }
