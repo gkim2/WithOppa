@@ -2,6 +2,11 @@ package js.withoppa;
 
 
 
+import song.WriteForm;
+import js.withoppa.R.id;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,10 +22,18 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnTouchListener{
+	//터치이벤트 받을 텍스트 뷰
+	TextView text1;
+	TextView text2;
+	TextView selection;
+	
+	int mColor =0;
 	 
 	//좌우메뉴 맴버필드
 	boolean toggleLimit;
@@ -81,11 +94,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         //프레그먼트 초기설정
         fragmentIndex = FRAGMENT_LIST;
         fragmentReplace(fragmentIndex);
+        
+     
         //버튼 리스너 등록
-        TextView test1Btn = (TextView) findViewById(R.id.test1_btn);
-        test1Btn.setOnClickListener(this);
-		TextView test2Btn = (TextView) findViewById(R.id.test2_btn);
-		test2Btn.setOnClickListener(this);
+        text1 = (TextView) findViewById(R.id.test1_btn);
+        text1.setOnTouchListener(this);
+		text2 = (TextView) findViewById(R.id.test2_btn);
+		text2.setOnTouchListener(this);
         
 	}
 
@@ -285,14 +300,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		return newFragment;
 	}
 	
-	@Override
+/*	@Override
 	public void onClick(View v) {
 		
 		switch (v.getId()) {
 
 		case R.id.test1_btn:
-			fragmentIndex = FRAGMENT_LIST;
-			fragmentReplace(fragmentIndex);
+			v.setBackgroundColor(Color.BLUE);
 			break;
 		case R.id.test2_btn:
 			fragmentIndex = FRAGMENT_TEST;
@@ -300,6 +314,50 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			break;
 		}
 		
+	}*/
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		
+		//현재 어떤 뷰가 선택 되었는지 가져온다.
+		selection = (TextView)findViewById(v.getId());
+		//다시 원래 색으로 돌아갈 Temp 변수
+		
+		// TODO Auto-generated method stub
+		
+		/*--------------공용으로 적용될 부분 클릭시 글씨 색깔 반전 -----*/
+		 
+		if(event.getAction()==MotionEvent.ACTION_DOWN){
+            if(selection.getClass()==v.getClass()){
+            	mColor = selection.getTextColors().getDefaultColor();
+                selection.setTextColor(Color.WHITE);
+              //  Toast.makeText(this, "현재색상은" +mColor , 1).show();
+            }
+        }
+        
+        if(event.getAction()==MotionEvent.ACTION_UP){
+            if(selection.getClass()==v.getClass()){
+                selection.setTextColor(mColor);
+            }
+        }
+        /*---------------개별적으로 적용될 파트---------------- -----*/
+        
+        switch (v.getId()) {
+
+		case R.id.test1_btn:
+			Intent intent = new Intent(MainActivity.this , WriteForm.class);
+			startActivity(intent);
+			
+			break;
+		case R.id.test2_btn:
+			fragmentIndex = FRAGMENT_TEST;
+			fragmentReplace(fragmentIndex);
+			break;
+		}
+        /*---------------------------------------------------*/
+		return true;
+
 	}
+	
 	
 }
