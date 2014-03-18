@@ -1,6 +1,11 @@
 package js.withoppa;
 
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
 
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,12 +50,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	public final static int FRAGMENT_LIST = 0;
 	public final static int FRAGMENT_TEST = 1;
 	
-	
+	public static SocketIO socket=LoginActivity.socket;
+	public static IOCallBackImpl ioCallBackImpl;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		socket.emit("getContents", socket.getHeader("midx"));
+		
+		LoginActivity staticLoginAct=(LoginActivity) LoginActivity.staticLoginAct;
+		staticLoginAct.finish();
 
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -115,15 +126,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 					.setVisibility(View.VISIBLE);
 
 			findViewById(R.id.ll_empty).setEnabled(true);
-			/*findViewById(R.id.ll_empty).setOnTouchListener(
-					new OnTouchListener() {
-
-						@Override
-						public boolean onTouch(View arg0, MotionEvent arg1) {
-							menuLeftSlideAnimationToggle();
-							return true;
-						}
-					});*/
+			findViewById(R.id.ll_empty).setOnTouchListener(
+				new OnTouchListener() {
+					@Override
+					public boolean onTouch(View arg0, MotionEvent arg1) {
+						menuLeftSlideAnimationToggle();
+						return true;
+					}
+			});
 
 		} else {
 			isLeftExpanded = false;

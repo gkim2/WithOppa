@@ -5,10 +5,7 @@ import java.net.MalformedURLException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
 import io.socket.SocketIO;
-import io.socket.SocketIOException;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -18,12 +15,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.CookieManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -52,14 +47,18 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-	private SocketIO socket;
-	private boolean logedIn=false;
+	public static SocketIO socket;
+	public static Activity staticLoginAct;
+	public static IOCallBackImpl ioCallBackImpl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
+		
+		staticLoginAct=LoginActivity.this;
+		ioCallBackImpl=new IOCallBackImpl();
+		
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 		mEmailView = (EditText) findViewById(R.id.email);
@@ -93,18 +92,24 @@ public class LoginActivity extends Activity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		try {
+			String host = "http://192.168.0.90";
+			socket = new SocketIO(host);
+			socket.connect(ioCallBackImpl);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		logedIn=false;
-	}
-	
 	/**
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
@@ -211,53 +216,16 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
+			JSONObject data=new JSONObject();
 			try {
-				String host = "http://192.168.0.90";
-				socket = new SocketIO(host);
-				socket.connect(new IOCallback() {
-					@Override
-					public void on(String event, IOAcknowledge ack, Object... args) {
-						if("logedIn".equals(event)&&args[0].equals(true)){
-							logedIn=true;
-				        }
-					}
-
-					@Override
-					public void onConnect() {
-					}
-
-					@Override
-					public void onDisconnect() {
-					}
-
-					@Override
-					public void onError(SocketIOException arg0) {
-						Log.e(arg0.toString(),arg0.toString());
-					}
-
-					@Override
-					public void onMessage(String arg0, IOAcknowledge arg1) {
-					}
-
-					@Override
-					public void onMessage(JSONObject arg0, IOAcknowledge arg1) {
-					}
-				});
-				JSONObject data=new JSONObject();
-				try {
-					data.put("id",mEmail);
-					data.put("pw",mPassword);
-					socket.emit("login",data);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
+				data.put("id",mEmail);
+				data.put("pw",mPassword);
+				socket.emit("login",data);
+			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			// TODO: register the new account here.
-			return logedIn;
+			return ioCallBackImpl.logedIn;
 		}
 
 		@Override
