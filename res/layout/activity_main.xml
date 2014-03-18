@@ -54,32 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffc0cb" >
-
-                <Button
-                    android:id="@+id/bt_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Left" />
-
-                <Button
-                    android:id="@+id/bt_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="right" />
-                
-                <ListView
-                    android:id="@+id/list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bt_left"
-                     android:divider="@android:color/transparent"
-				     android:dividerHeight="20dp"
-				     android:layout_marginTop="3dp"
-				     android:padding="10dp"
-				     android:cacheColorHint="#000000"
-				     android:scrollbars="none" />
-
             </RelativeLayout>
 
             <LinearLayout
@@ -88,7 +62,9 @@
                 android:layout_height="fill_parent"
                 android:background="@android:color/transparent"
                 android:orientation="horizontal" />
+            
         </FrameLayout>
+        
     </LinearLayout>
 
 </FrameLayout>
