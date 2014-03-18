@@ -2,6 +2,7 @@ package js.withoppa;
 
 import java.net.MalformedURLException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.socket.IOAcknowledge;
@@ -12,6 +13,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,13 +32,6 @@ import android.widget.TextView;
  * well.
  */
 public class LoginActivity extends Activity {
-	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
-
 	/**
 	 * The default email to populate the email field with.
 	 */
@@ -57,11 +52,12 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
+	private SocketIO socket;
+	private boolean logedIn=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
@@ -103,6 +99,12 @@ public class LoginActivity extends Activity {
 		return true;
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		logedIn=false;
+	}
+	
 	/**
 	 * Attempts to sign in or register the account specified by the login form.
 	 * If there are form errors (invalid email, missing fields, etc.), the
@@ -210,17 +212,13 @@ public class LoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 			try {
-				String host = "http://127.0.0.1:3001";
-				String cookie = CookieManager.getInstance().getCookie(host);
-				SocketIO socket = new SocketIO(host);
-				socket.addHeader("Cookie", cookie);
-				Log.e("소켓아이오","소켓아이오");
+				String host = "http://192.168.0.90";
+				socket = new SocketIO(host);
 				socket.connect(new IOCallback() {
 					@Override
 					public void on(String event, IOAcknowledge ack, Object... args) {
-						if ("echo back".equals(event) && args.length > 0) {
-				            Log.e("SocketIO", "" + args[0]);
-				            // -> "hello"
+						if("logedIn".equals(event)&&args[0].equals(true)){
+							logedIn=true;
 				        }
 					}
 
@@ -234,6 +232,7 @@ public class LoginActivity extends Activity {
 
 					@Override
 					public void onError(SocketIOException arg0) {
+						Log.e(arg0.toString(),arg0.toString());
 					}
 
 					@Override
@@ -244,37 +243,31 @@ public class LoginActivity extends Activity {
 					public void onMessage(JSONObject arg0, IOAcknowledge arg1) {
 					}
 				});
-				socket.emit("echo", "hello");
+				JSONObject data=new JSONObject();
+				try {
+					data.put("id",mEmail);
+					data.put("pw",mPassword);
+					socket.emit("login",data);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			/*try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}*/
-			Log.e("소켓아이오2", "소켓아이오2");
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
-
 			// TODO: register the new account here.
-			return true;
+			return logedIn;
 		}
 
 		@Override
-		protected void onPostExecute(final Boolean success) {
+		protected void onPostExecute(Boolean success) {
 			mAuthTask = null;
 			showProgress(false);
 
 			if (success) {
-				finish();
+				Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+				startActivity(intent);
 			} else {
 				mPasswordView
 						.setError(getString(R.string.error_incorrect_password));

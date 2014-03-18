@@ -3,15 +3,15 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in_register"><b>Sign in</b> or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_forgot_password">Recover lost password</string>
-    <string name="login_progress_signing_in">Signing in&#8230;</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="prompt_email">이메일주소</string>
+    <string name="prompt_password">비밀번호</string>
+    <string name="action_sign_in_register"><b>로그인</b>(등록)</string>
+    <string name="action_sign_in_short">로그인</string>
+    <string name="action_forgot_password">비밀번호 찾기</string>
+    <string name="login_progress_signing_in">로그인하는중&#8230;</string>
+    <string name="error_invalid_email">해당 메일주소는 유효하지 않습니다</string>
+    <string name="error_invalid_password">4자리 이상의 비밀번호를 입력해주십시오</string>
+    <string name="error_incorrect_password">이메일 혹은 비밀번호가 맞지 않습니다</string>
+    <string name="error_field_required">해당 영역을 채워주십시오</string>
 
 </resources>

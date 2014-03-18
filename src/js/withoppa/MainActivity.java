@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements OnClickListener {
-	 
+
 	/* slide menu */
 	private DisplayMetrics metrics;
 	private LinearLayout slidingPanel;
@@ -120,7 +120,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					.setVisibility(View.VISIBLE);
 
 			findViewById(R.id.ll_empty).setEnabled(true);
-			findViewById(R.id.ll_empty).setOnTouchListener(
+			/*findViewById(R.id.ll_empty).setOnTouchListener(
 					new OnTouchListener() {
 
 						@Override
@@ -128,7 +128,7 @@ public class MainActivity extends Activity implements OnClickListener {
 							menuLeftSlideAnimationToggle();
 							return true;
 						}
-					});
+					});*/
 
 		} else {
 			isLeftExpanded = false;
