@@ -1,5 +1,6 @@
 package js.withoppa;
 
+
 import java.net.MalformedURLException;
 
 import org.json.JSONException;
@@ -89,6 +90,14 @@ public class LoginActivity extends Activity {
 					@Override
 					public void onClick(View view) {
 						attemptLogin();
+					}
+				});
+		findViewById(R.id.sign_up_button).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
+						startActivity(intent);
 					}
 				});
 	}
@@ -219,7 +228,7 @@ public class LoginActivity extends Activity {
 			if(GlobalVar.socket==null){
 				Log.e("쓰레드 생성자", "쓰레드 생성자");
 				try {
-					String host = "http://192.168.0.90";
+					String host = "http://192.168.0.175";
 					GlobalVar.socket = new SocketIO(host);
 					ioCallBackImpl=new IOCallBackImpl();
 					GlobalVar.socket.connect(ioCallBackImpl);
@@ -254,7 +263,7 @@ public class LoginActivity extends Activity {
 			// TODO: register the new account here.
 			return ioCallBackImpl.logedIn;
 		}
-
+		
 		@Override
 		protected void onPostExecute(Boolean success) {
 			/*mAuthTask = null;*/

@@ -9,6 +9,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
     <ImageView android:background="@drawable/thum"
+     android:id="@+id/thumImg"
      android:layout_width="70dp"
      android:layout_height="70dp"
      android:layout_margin="3dp"
@@ -20,46 +21,51 @@
    		 android:layout_height="wrap_content"
    		 android:orientation="vertical">
    		 <EditText
+   		 android:id="@+id/UpName_input"
        	 android:layout_width="match_parent"
        	 android:layout_height="40dp"
-       	 android:hint="이름" 
+       	 android:hint="@string/signup_name" 
        	 android:background="@drawable/border"
        	 android:padding="5dp"
        	 android:layout_margin="3dp"/>
     	 <EditText
+    	 android:id="@+id/UpEmail_input"
          android:layout_width="match_parent"
          android:layout_height="40dp"
-         android:hint="이메일" 
+         android:hint="@string/signup_email" 
          android:background="@drawable/border"
          android:padding="5dp"
          android:layout_margin="3dp"/>
     	 <EditText
+    	 android:id="@+id/UpPw1_input"
          android:layout_width="match_parent"
          android:layout_height="40dp"
-         android:hint="비밀번호(6자리 이상)" 
+         android:hint="@string/signup_password" 
          android:background="@drawable/border"
          android:padding="5dp"
          android:layout_margin="3dp"
          android:password="true"/>
    	     <EditText
+   	     android:id="@+id/UpPw2_input"
          android:layout_width="match_parent"
          android:layout_height="40dp"
-         android:hint="비밀번호 확인" 
+         android:hint="@string/signup_password_ch" 
          android:background="@drawable/border"
          android:padding="5dp"
-         android:layout_margin="3dp"/>
+         android:layout_margin="3dp"
+         android:password="true"/>
  		</LinearLayout>
 	</LinearLayout>
 	<TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/consent"/>
+        android:text="@string/signup_consent"/>
 	<TextView android:onClick="signUp"
 	    android:id="@+id/signUp_btn"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:clickable="true"
 		android:focusable="true"
-	    android:text="가입하기"
+	    android:text="@string/action_sign_up"
 	    android:textSize="20sp"
 	    android:layout_margin="20dp"
 	    android:padding="5dp"

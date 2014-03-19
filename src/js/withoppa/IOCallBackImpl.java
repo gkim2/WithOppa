@@ -13,6 +13,8 @@ public class IOCallBackImpl implements IOCallback {
 	
 	boolean logedIn=false;
 	boolean tried=false;
+	
+	boolean signUp=false;
 
 	@Override
 	public void on(String event, IOAcknowledge ack, Object... args) {
