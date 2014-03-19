@@ -57,7 +57,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		socket.emit("getContents", socket.getHeader("midx"));
+		Log.e("메인에서 글로벌변수 확인", String.valueOf(GlobalVar.userLoginTask!=null)+" "+String.valueOf(GlobalVar.socket!=null));
+		
+		/*socket.emit("getContents", socket.getHeader("midx"));*/
 		
 		LoginActivity staticLoginAct=(LoginActivity) LoginActivity.staticLoginAct;
 		staticLoginAct.finish();

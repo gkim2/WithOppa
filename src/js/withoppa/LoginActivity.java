@@ -56,7 +56,7 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Log.e("쓰레드 남았냐",String.valueOf(GlobalVar.userLoginTask!=null));
-		
+
 		setContentView(R.layout.activity_login);
 		
 		staticLoginAct=LoginActivity.this;
@@ -92,7 +92,6 @@ public class LoginActivity extends Activity {
 					}
 				});
 	}
-
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -248,7 +247,6 @@ public class LoginActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// TODO: register the new account here.
