@@ -7,22 +7,25 @@ import android.util.Log;
 
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
-import io.socket.SocketIO;
 import io.socket.SocketIOException;
 
 public class IOCallBackImpl implements IOCallback {
 	
 	boolean logedIn=false;
-	SocketIO socket=LoginActivity.socket;
+	boolean tried=false;
 
 	@Override
 	public void on(String event, IOAcknowledge ack, Object... args) {
 		if("logedIn".equals(event)){
-			JSONObject jsOb=(JSONObject) args[0];
-			try {
+			Log.e("logedIn 콜백받음", "logedIn 콜백받음");
+			JSONObject jsOb = null;
+			tried=true;
+			try{
+				jsOb=(JSONObject) args[0];
+				Log.e("모왔냐", jsOb.toString());
 				logedIn=jsOb.getBoolean("logedIn");
 				if(logedIn){
-					socket.addHeader("midx",args[1].toString());
+					GlobalVar.socket.addHeader("midx",jsOb.getString("MIDX"));
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

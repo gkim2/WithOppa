@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -35,7 +36,7 @@ public class LoginActivity extends Activity {
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
-	private UserLoginTask mAuthTask = null;
+	/*private UserLoginTask mAuthTask = null;*/
 
 	// Values for email and password at the time of the login attempt.
 	private String mEmail;
@@ -47,17 +48,18 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-	public static SocketIO socket;
+	
 	public static Activity staticLoginAct;
-	public static IOCallBackImpl ioCallBackImpl;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Log.e("쓰레드 남았냐",String.valueOf(GlobalVar.userLoginTask!=null));
+		
 		setContentView(R.layout.activity_login);
 		
 		staticLoginAct=LoginActivity.this;
-		ioCallBackImpl=new IOCallBackImpl();
 		
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
@@ -91,17 +93,6 @@ public class LoginActivity extends Activity {
 				});
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		try {
-			String host = "http://192.168.0.90";
-			socket = new SocketIO(host);
-			socket.connect(ioCallBackImpl);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,9 +107,16 @@ public class LoginActivity extends Activity {
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
-		if (mAuthTask != null) {
+		Log.e("attemptLogin()실행", "attemptLogin()실행");
+		/*if (mAuthTask != null) {
+			return;
+		}*/
+		if (GlobalVar.userLoginTask != null) {
 			return;
 		}
+		/*if (GlobalVar.userLoginTask == null) {
+			GlobalVar.userLoginTask=new UserLoginTask();
+		}*/
 
 		// Reset errors.
 		mEmailView.setError(null);
@@ -162,8 +160,11 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
+			/*mAuthTask = new UserLoginTask();
+			mAuthTask.execute((Void) null);*/
+			Log.e("쓰레드생성", "쓰레드생성");
+			GlobalVar.userLoginTask=new UserLoginTask();
+			GlobalVar.userLoginTask.execute((Void)null);
 		}
 	}
 
@@ -213,15 +214,41 @@ public class LoginActivity extends Activity {
 	 * the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+		IOCallBackImpl ioCallBackImpl;
+		public UserLoginTask() {
+			if(GlobalVar.socket==null){
+				Log.e("쓰레드 생성자", "쓰레드 생성자");
+				try {
+					String host = "http://192.168.0.90";
+					GlobalVar.socket = new SocketIO(host);
+					ioCallBackImpl=new IOCallBackImpl();
+					GlobalVar.socket.connect(ioCallBackImpl);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
+			Log.e("doInBackground()실행", "doInBackground()실행");
 			JSONObject data=new JSONObject();
 			try {
 				data.put("id",mEmail);
 				data.put("pw",mPassword);
-				socket.emit("login",data);
+				GlobalVar.socket.emit("login",data);
+				while(true){
+					Thread.sleep(1000);
+					Log.e("ioCallBackImpl.tried", String.valueOf(ioCallBackImpl.tried));
+					if(ioCallBackImpl.tried){
+						break;
+					}
+				}
 			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// TODO: register the new account here.
@@ -230,22 +257,34 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Boolean success) {
-			mAuthTask = null;
+			/*mAuthTask = null;*/
+			/*GlobalVar.userLoginTask=null;
+			GlobalVar.socket.disconnect();
+			GlobalVar.socket=null;*/
 			showProgress(false);
-
+			Log.e("onPostExecute()실행", "onPostExecute()실행");
 			if (success) {
 				Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+				ioCallBackImpl.tried=false;
 				startActivity(intent);
 			} else {
+				GlobalVar.userLoginTask=null;
+				GlobalVar.socket.disconnect();
+				GlobalVar.socket=null;
 				mPasswordView
 						.setError(getString(R.string.error_incorrect_password));
+				ioCallBackImpl.tried=false;
 				mPasswordView.requestFocus();
 			}
 		}
 
 		@Override
 		protected void onCancelled() {
-			mAuthTask = null;
+			/*mAuthTask = null;*/
+			GlobalVar.userLoginTask=null;
+			GlobalVar.socket.disconnect();
+			GlobalVar.socket=null;
+			Log.e("onCancelled()실행", "onCancelled()실행");
 			showProgress(false);
 		}
 	}

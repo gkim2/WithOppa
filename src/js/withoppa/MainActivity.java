@@ -50,8 +50,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	public final static int FRAGMENT_LIST = 0;
 	public final static int FRAGMENT_TEST = 1;
 	
-	public static SocketIO socket=LoginActivity.socket;
-	public static IOCallBackImpl ioCallBackImpl;
+	SocketIO socket=GlobalVar.socket;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
