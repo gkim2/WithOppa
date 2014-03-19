@@ -49,18 +49,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	int fragmentIndex;
 	public final static int FRAGMENT_LIST = 0;
 	public final static int FRAGMENT_TEST = 1;
-	
-	SocketIO socket=GlobalVar.socket;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		Log.e("메인에서 글로벌변수 확인", String.valueOf(GlobalVar.userLoginTask!=null)+" "+String.valueOf(GlobalVar.socket!=null));
-		
-		/*socket.emit("getContents", socket.getHeader("midx"));*/
-		
+
 		LoginActivity staticLoginAct=(LoginActivity) LoginActivity.staticLoginAct;
 		staticLoginAct.finish();
 

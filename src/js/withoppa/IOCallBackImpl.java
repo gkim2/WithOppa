@@ -30,6 +30,8 @@ public class IOCallBackImpl implements IOCallback {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		}else if("getContents".equals(event)){
+			
 		}
 	}
 	@Override
