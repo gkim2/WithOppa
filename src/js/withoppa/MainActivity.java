@@ -114,7 +114,7 @@ public class MainActivity extends FragmentActivity implements OnTouchListener{
 	 * 좌측 메뉴 토글시 처리
 	 */
 	void menuLeftSlideAnimationToggle() {
-
+ 
 		if (!isLeftExpanded) {
 
 			isLeftExpanded = true;
