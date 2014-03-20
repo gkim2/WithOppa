@@ -360,10 +360,24 @@ public class MainActivity extends FragmentActivity implements OnTouchListener{
 		        /*---------------------------------------------------*/
 		return false;
 	}
-	public void write(View v){	
+	boolean approach = true;
+	
+	public void writeIcon(View v){	
 		Intent intent = new Intent(MainActivity.this , writeActivity.class);
+		approach = true;
+		intent.putExtra("approach", approach);
 		startActivity(intent);
 		}
+	
+	
+	public void picIcon(View v){
+		Intent intent = new Intent(MainActivity.this , writeActivity.class);
+		approach = false;
+		intent.putExtra("approach", approach);
+		startActivity(intent);
+		
+		
+	}
 	
 	
 }

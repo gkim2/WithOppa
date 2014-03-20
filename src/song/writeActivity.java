@@ -41,13 +41,14 @@ public class writeActivity extends Activity{
 	EditText mText;
 	ImageView mPicture;
 	Uri uri;
+	boolean setPicture = false;;
 		
 		@SuppressLint("NewApi")
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_write);
-			
+			Log.e("song"," 글쓰기 액티비티 생성");
 			/*-------------------액션바를 생성한다---------------*/
 			actionBar = getActionBar();
 			actionBar.setTitle("  게시물 작성");
@@ -70,6 +71,23 @@ public class writeActivity extends Activity{
 			resId = (TextView)findViewById(R.id.resId);
 			mText = (EditText)findViewById(R.id.mText);
 			mPicture = (ImageView)findViewById(R.id.takePicture);
+			
+			if(setPicture){
+				
+				mText.setHint(" 이 사진에 대하여 할 말이 있습니까?");
+			}else{
+				mText.setHint(" 하고 싶은 말이 있으신가요");
+			}
+			/*---------------------인텐트 데이터 꺼내옴 -----------------*/
+			Intent intent = getIntent();
+			
+			boolean intentToken = intent.getExtras().getBoolean("approach");
+			if(intentToken){
+				
+			Toast.makeText(this, "아아아", 0).show();
+			} else{
+				picture(mPicture);
+			}
 			
 		}
 		
@@ -108,17 +126,31 @@ public class writeActivity extends Activity{
 			return super.onOptionsItemSelected(item);
 		}
 		
-		private static final  int TAKE_CAMERA = 1;
+		public static final  int TAKE_CAMERA = 1;
 		private static final  int TAKE_PICTURE= 0;
 		private static final  int CROP_FROM_CAMERA = 2;
+		public final static int DIRECT_PICTURE = 3;
+		
+		
 		//카메라 이미지 버튼을 누른다.
 		public void picture(View v){
-		
+			String temp = v.toString();
+			Toast.makeText(this, temp, 0).show();
 			Intent intent = new Intent( Intent.ACTION_PICK ) ;	
 			intent.setType( android.provider.MediaStore.Images.Media.CONTENT_TYPE ) ;
 			intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult( intent, TAKE_PICTURE ) ;
+			
 		}
+		
+
+		//받는 사람 아이콘 누를 시
+		public void toUsers(View v){
+			Toast.makeText(this, "현재는 더미아이콘임", 0).show();
+		}
+		
+
+		
 		
 		@Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,46 +180,37 @@ public class writeActivity extends Activity{
 		        break;
 		      }
 			case TAKE_PICTURE	:
+				if(resultCode == Activity.RESULT_OK){					uri = data.getData();
+						String path =  uri.getPath();
+						
+						BitmapFactory.Options option = new BitmapFactory.Options();
+		                option.inSampleSize = 4;
+		                Bitmap bm = null;
+						try {
+							bm = Images.Media.getBitmap(getContentResolver(), uri);
+							Bitmap resized = Bitmap.createScaledBitmap(bm, 180, 180, true);
+							Log.e("song","비트맵 이미지를 세팅합니다.");
+							setPicture =true;
+							mPicture.setImageBitmap(resized);
+							
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				
-				uri = data.getData();
-				String path =  uri.getPath();
-				
-				BitmapFactory.Options option = new BitmapFactory.Options();
-                option.inSampleSize = 2;
-                Bitmap bm = null;
-				try {
-					bm = Images.Media.getBitmap(getContentResolver(), uri);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-             //   Bitmap bm = BitmapFactory.decodeFile(path);
-				mPicture.setImageBitmap(bm);
-				
-				/*Intent intent = new Intent("com.android.camera.action.CROP");
-		        intent.setDataAndType(uri, "image/*");
-				mPicture.setImageURI(uri);
-				intent.putExtra("outputX", 180);
-		        intent.putExtra("outputY", 180);
-		        intent.putExtra("aspectX", 1);
-		        intent.putExtra("aspectY", 1);
-		        intent.putExtra("scale", true);
-		        intent.putExtra("return-data", true);
-		        startActivityForResult(intent, CROP_FROM_CAMERA);*/
+           
 		  
 		        break;
 				
-				/*mPicture.setImageBitmap((Bitmap)data.getParcelableExtra("data"	));
-				mPicture.setScaleType(ImageView.ScaleType.FIT_XY);*/
-				/*String path =  uri.getPath();
-				Drawable dw = setImage.resize(path);
+			case 3	:
+				Toast.makeText(this, "외부에서 접근", 0).show();
+				Intent intent = new Intent(this , writeActivity.class);
 				
-				mPicture.setBackground(dw);*/
-				
-				
+				break;
 				
 			case TAKE_CAMERA	:
 				break;
@@ -196,7 +219,7 @@ public class writeActivity extends Activity{
 		}
 		
 		
-		/*public class upDataTask extends AsyncTask<String, Integer, Boolean>{
+		public class upDataTask extends AsyncTask<String, Integer, Boolean>{
 			IOCallBackImpl ioCallBackImpl;
 			public upDataTask() {			
 				// TODO Auto-generated constructor stub
@@ -218,9 +241,7 @@ public class writeActivity extends Activity{
 			@Override
 			protected Boolean doInBackground(String... params) {
 				JSONObject data = new JSONObject();
-				try {
-					
-				} 
+				
 				return null;
 			}
 			
@@ -230,7 +251,7 @@ public class writeActivity extends Activity{
 				super.onPostExecute(result);
 			}
 			
-		}*/
+		}
 		
 	
 		
