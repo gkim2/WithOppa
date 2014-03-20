@@ -3,6 +3,7 @@ package song;
 
 import io.socket.SocketIO;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,13 +15,16 @@ import org.json.JSONObject;
 import js.withoppa.GlobalVar;
 import js.withoppa.IOCallBackImpl;
 import js.withoppa.MainActivity;
+import js.withoppa.MyData;
 import js.withoppa.R;
+import js.withoppa.LoginActivity.UserLoginTask;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,6 +45,7 @@ public class writeActivity extends Activity{
 	EditText mText;
 	ImageView mPicture;
 	Uri uri;
+	Bitmap resizedImage;
 	boolean setPicture = false;;
 		
 		@SuppressLint("NewApi")
@@ -116,7 +121,25 @@ public class writeActivity extends Activity{
 				Toast.makeText(this, mPicture.getDrawable().toString(), 0).show();
 				/*--------------------------*/
 				/*------------ Data 를 가지고 가면 됨 --------*/
-				
+				JSONObject data = new JSONObject();
+				/*비트맵 데이터 배열로 변환 */
+				byte [] bitmapArray = bitmapToByteArray(resizedImage);
+				try {
+					data.put("name", GlobalVar.mgName);					
+				//	data.put("comment", value)
+					data.put("data", tmp);
+					data.put("image", bitmapArray);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				try {
+					Toast.makeText(this, data.get("image").toString(),0).show();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				/*GlobalVar.upDataTask=new UpDataTask();
+				GlobalVar.upDataTask.execute(data);*/
 				
 				/*------------------------------------*/
 				
@@ -149,7 +172,12 @@ public class writeActivity extends Activity{
 			Toast.makeText(this, "현재는 더미아이콘임", 0).show();
 		}
 		
-
+		public byte[] bitmapToByteArray(Bitmap bitmap){
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			bitmap.compress(CompressFormat.JPEG, 100, baos);
+			byte [] bArray = baos.toByteArray();
+			return bArray;
+		}
 		
 		
 		@Override
@@ -188,10 +216,10 @@ public class writeActivity extends Activity{
 		                Bitmap bm = null;
 						try {
 							bm = Images.Media.getBitmap(getContentResolver(), uri);
-							Bitmap resized = Bitmap.createScaledBitmap(bm, 180, 180, true);
+							resizedImage = Bitmap.createScaledBitmap(bm, 180, 180, true);
 							Log.e("song","비트맵 이미지를 세팅합니다.");
 							setPicture =true;
-							mPicture.setImageBitmap(resized);
+							mPicture.setImageBitmap(resizedImage);
 							
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
@@ -219,9 +247,9 @@ public class writeActivity extends Activity{
 		}
 		
 		
-		public class upDataTask extends AsyncTask<String, Integer, Boolean>{
+		public class UpDataTask extends AsyncTask<JSONObject, Integer, Boolean>{
 			IOCallBackImpl ioCallBackImpl;
-			public upDataTask() {			
+			public UpDataTask() {			
 				// TODO Auto-generated constructor stub
 				if(GlobalVar.socket==null){
 					Log.e("song" , "업로드 태스크 생성");
@@ -239,8 +267,9 @@ public class writeActivity extends Activity{
 			
 			
 			@Override
-			protected Boolean doInBackground(String... params) {
-				JSONObject data = new JSONObject();
+			protected Boolean doInBackground(JSONObject... params) {
+				Log.e("song","백그라운드 쓰레드 동작");
+				
 				
 				return null;
 			}
