@@ -7,6 +7,10 @@ import io.socket.SocketIOException;
 
 import org.json.JSONObject;
 
+import song.writeActivity;
+
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,8 +28,14 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnTouchListener{
+	
+	TextView text1 , text2;
+	TextView selection;
+	
+	int mColor =0;
 	 
 	//좌우메뉴 맴버필드
 	boolean toggleLimit;
@@ -49,14 +59,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	int fragmentIndex;
 	public final static int FRAGMENT_LIST = 0;
 	public final static int FRAGMENT_TEST = 1;
-
+	
+	public static SocketIO socket=LoginActivity.socket;
+	public static IOCallBackImpl ioCallBackImpl;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		LoginActivity staticLoginAct=(LoginActivity) LoginActivity.staticLoginAct;
-		staticLoginAct.finish();
+		
+	//	socket.emit("getContents", socket.getHeader("midx"));
+		
+	//	LoginActivity staticLoginAct=(LoginActivity) LoginActivity.staticLoginAct;
+	//	staticLoginAct.finish();
 
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -88,10 +103,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         fragmentIndex = FRAGMENT_LIST;
         fragmentReplace(fragmentIndex);
         //버튼 리스너 등록
-        TextView test1Btn = (TextView) findViewById(R.id.test1_btn);
-        test1Btn.setOnClickListener(this);
-		TextView test2Btn = (TextView) findViewById(R.id.test2_btn);
-		test2Btn.setOnClickListener(this);
+        text1 = (TextView) findViewById(R.id.test1_btn);
+        text1.setOnTouchListener(this);
+		text2 = (TextView) findViewById(R.id.test2_btn);
+		text2.setOnTouchListener(this);
         
 	}
 
@@ -290,7 +305,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		return newFragment;
 	}
 	
-	@Override
+/*	@Override
 	public void onClick(View v) {
 		
 		switch (v.getId()) {
@@ -305,6 +320,50 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			break;
 		}
 		
+	}*/
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		//현재 어떤 뷰가 선택 되었는지 가져온다.
+				selection = (TextView)findViewById(v.getId());
+
+				
+				/*--------------공용으로 적용될 부분 클릭시 글씨 색깔 반전  -----*/
+				 
+				if(event.getAction()==MotionEvent.ACTION_DOWN){
+		            if(selection.getClass()==v.getClass()){
+		            	mColor = selection.getTextColors().getDefaultColor();
+		                selection.setTextColor(Color.WHITE);
+		              //  Toast.makeText(this, "현재색상은" +mColor , 1).show();
+		            }
+		        }
+		        
+		        if(event.getAction()==MotionEvent.ACTION_UP){
+		            if(selection.getClass()==v.getClass()){
+		                selection.setTextColor(mColor);
+		            }
+		        }
+		        /*---------------개별적으로 적용될 파트---------------- -----*/
+		        
+		        switch (v.getId()) {
+
+				case R.id.test1_btn:
+					Intent intent = new Intent(MainActivity.this , writeActivity.class);
+					startActivity(intent);
+					
+					break;
+				case R.id.test2_btn:
+					fragmentIndex = FRAGMENT_TEST;
+					fragmentReplace(fragmentIndex);
+					break;
+				}
+		        /*---------------------------------------------------*/
+		return false;
 	}
+	public void write(View v){	
+		Intent intent = new Intent(MainActivity.this , writeActivity.class);
+		startActivity(intent);
+		}
+	
 	
 }
