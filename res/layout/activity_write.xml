@@ -24,7 +24,8 @@
                 android:text="dummy"
                 android:layout_weight="1"
                 />
-            				<LinearLayout android:layout_width="32dp"
+            
+				<LinearLayout android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:gravity="right">
 		            <ImageButton
@@ -39,12 +40,48 @@
         
         
     </LinearLayout>
-	<EditText
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        >
+        <EditText
 	    android:id="@+id/mText" 
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
+	    android:layout_height="wrap_content"
+	    
 	    android:hint="하고 싶은 말이 있으신가요"
 	    android:gravity="top"
 	    android:scrollbars="vertical"/>
+        <ImageView android:layout_width="wrap_content"  		
+            android:layout_height="wrap_content"        
+            android:id="@+id/takePicture"
+            android:scaleType="center"
+            android:padding="4dp"
+            
+            />
+        
+    </LinearLayout>
+	
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+       android:padding="5dp"
+        android:orientation="horizontal"     
+        android:gravity="bottom"
+        >
+        
+		<ImageView android:layout_width="match_parent"
+		    android:maxWidth="32dp"
+		    android:layout_height="match_parent"
+		    android:maxHeight="32dp"
+		    android:background="@drawable/photo"
+		    android:onClick="picture"
+		    />
+        
+    </LinearLayout>
 	
 </LinearLayout>

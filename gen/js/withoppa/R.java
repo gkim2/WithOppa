@@ -37,25 +37,26 @@ public final class R {
         public static final int ic_launcher=0x7f02000d;
         public static final int landscape=0x7f02000e;
         public static final int map=0x7f02000f;
-        public static final int sibural=0x7f020010;
-        public static final int thum=0x7f020011;
-        public static final int todo=0x7f020012;
-        public static final int walk=0x7f020013;
+        public static final int photo=0x7f020010;
+        public static final int sibural=0x7f020011;
+        public static final int thum=0x7f020012;
+        public static final int todo=0x7f020013;
+        public static final int walk=0x7f020014;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f08001d;
-        public static final int action_settings=0x7f08001f;
-        public static final int bt_left=0x7f080012;
-        public static final int comment=0x7f080019;
-        public static final int date=0x7f080018;
-        public static final int delbtn=0x7f08001b;
+        public static final int action_forgot_password=0x7f08001e;
+        public static final int action_settings=0x7f080020;
+        public static final int bt_left=0x7f080013;
+        public static final int comment=0x7f08001a;
+        public static final int date=0x7f080019;
+        public static final int delbtn=0x7f08001c;
         public static final int email=0x7f080003;
         public static final int ic_leftslidemenu=0x7f08000a;
         public static final int ic_rightslidemenu=0x7f080008;
-        public static final int image=0x7f08001c;
+        public static final int image=0x7f08001d;
         public static final int leftMenuPanel=0x7f080009;
-        public static final int leftslidemenu=0x7f080013;
-        public static final int list=0x7f080011;
+        public static final int leftslidemenu=0x7f080014;
+        public static final int list=0x7f080012;
         public static final int ll_empty=0x7f08000d;
         public static final int ll_fragment=0x7f08000c;
         public static final int login=0x7f080005;
@@ -63,18 +64,19 @@ public final class R {
         public static final int login_status=0x7f080000;
         public static final int login_status_message=0x7f080001;
         public static final int mText=0x7f080010;
-        public static final int modifybtn=0x7f08001a;
-        public static final int name=0x7f080017;
+        public static final int modifybtn=0x7f08001b;
+        public static final int name=0x7f080018;
         public static final int password=0x7f080004;
-        public static final int profile=0x7f080014;
-        public static final int register=0x7f08001e;
+        public static final int profile=0x7f080015;
+        public static final int register=0x7f08001f;
         public static final int resId=0x7f08000f;
         public static final int rightMenuPanel=0x7f080007;
         public static final int signUp_btn=0x7f08000e;
         public static final int sign_in_button=0x7f080006;
         public static final int slidingPanel=0x7f08000b;
-        public static final int test1_btn=0x7f080015;
-        public static final int test2_btn=0x7f080016;
+        public static final int takePicture=0x7f080011;
+        public static final int test1_btn=0x7f080016;
+        public static final int test2_btn=0x7f080017;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
