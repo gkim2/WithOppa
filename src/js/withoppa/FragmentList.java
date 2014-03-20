@@ -1,13 +1,16 @@
 package js.withoppa;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.Buffer;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -45,6 +48,7 @@ public class FragmentList extends Fragment{
         list.setAdapter(adapter);
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	private void setData(){
 		arrData = new ArrayList<MyData>();
 		JSONArray contentsJsArray=null;
@@ -62,23 +66,31 @@ public class FragmentList extends Fragment{
 			try {
 				JSONObject tmpJsOb = contentsJsArray.getJSONObject(i);
 				MyData tmpContent=new MyData();
-				tmpContent.setName(tmpJsOb.getString("mgIdx"));
-				tmpContent.setDate(tmpJsOb.getString("regdate"));
+				tmpContent.setName(tmpJsOb.getString("mgName"));
+				String tmpDateString=tmpJsOb.getString("regdate");
+				DateFormat tmpFormatB=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+				DateFormat tmpFormatA=new SimpleDateFormat("yyyy'년'MM'월'dd'일' a hh'시'mm'분'");
+				Date tmpDateDate=tmpFormatB.parse(tmpDateString);
+				String tmpDate=tmpFormatA.format(tmpDateDate);
+				tmpContent.setDate(tmpDate);
 				tmpContent.setComment(tmpJsOb.getString("textData"));
 				//String fileName=tmpJsOb.getString("filename");
 				//int fileSize=Integer.parseInt(tmpJsOb.getString("filesize"));
 				String fileData=tmpJsOb.getString("file");
-				byte[] fileBytes=null;
-				fileBytes = fileData.getBytes();
+				byte[] fileBytes=fileData.getBytes();
 				Bitmap tmpImageBitmap=BitmapFactory.decodeByteArray(fileBytes,0,fileBytes.length);
 				tmpContent.setImage(tmpImageBitmap);
+				String mgFileData=tmpJsOb.getString("mgImage");
+				byte[] mgFileBytes=mgFileData.getBytes();
+				Bitmap tmpMgImageBitmap=BitmapFactory.decodeByteArray(mgFileBytes,0,mgFileBytes.length);
+				tmpContent.setMgImage(tmpMgImageBitmap);
+				tmpContent.setMgIdx(tmpJsOb.getString("mgIdx"));
 				arrData.add(tmpContent);
 			} catch (JSONException e) {
 				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 		}
-	    /*arrData.add(new MyData(R.drawable.h1, "내친구동생여친", "어제 2시쯤", "길가다 효주봄ㅇㅇ"));
-	    arrData.add(new MyData(R.drawable.h2, "지나가다안사람", "그제 5시", "길가다 효주봄ㅇㅇ"));
-	    arrData.add(new MyData(R.drawable.h3, "님이라는글자", "그제 3시", "길가다 효주봄ㅇㅇ"));*/
 	}
 }

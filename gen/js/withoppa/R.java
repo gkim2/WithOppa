@@ -24,16 +24,9 @@ public final class R {
         public static final int border=0x7f020000;
         public static final int color_1=0x7f020001;
         public static final int color_2=0x7f020002;
-        public static final int h1=0x7f020003;
-        public static final int h2=0x7f020004;
-        public static final int h3=0x7f020005;
-        public static final int h4=0x7f020006;
-        public static final int h5=0x7f020007;
-        public static final int h6=0x7f020008;
-        public static final int h7=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int sibural=0x7f02000b;
-        public static final int thum=0x7f02000c;
+        public static final int ic_launcher=0x7f020003;
+        public static final int sibural=0x7f020004;
+        public static final int thum=0x7f020005;
     }
     public static final class id {
         public static final int action_forgot_password=0x7f08001a;

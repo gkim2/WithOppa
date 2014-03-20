@@ -7,14 +7,18 @@ public class MyData {
 	 private String name;
 	 private String date;
 	 private String comment;
+	 private Bitmap mgImage;
+	 private String mgIdx;
 	 
 	 public MyData(){}
 	 
-	 public MyData(Bitmap image, String name, String date, String comment){
-	  this.setImage(image);
-	  this.setName(name);
-	  this.setDate(date);
-	  this.setComment(comment);
+	 public MyData(Bitmap image, String name, String date, String comment,Bitmap mgImage,String mgIdx){
+	  this.image=image;
+	  this.name=name;
+	  this.date=date;
+	  this.comment=comment;
+	  this.mgImage=mgImage;
+	  this.mgIdx=mgIdx;
 	 }
 
 	public Bitmap getImage() {
@@ -47,5 +51,21 @@ public class MyData {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Bitmap getMgImage() {
+		return mgImage;
+	}
+
+	public void setMgImage(Bitmap mgImage) {
+		this.mgImage = mgImage;
+	}
+
+	public String getMgIdx() {
+		return mgIdx;
+	}
+
+	public void setMgIdx(String mgIdx) {
+		this.mgIdx = mgIdx;
 	}
 }

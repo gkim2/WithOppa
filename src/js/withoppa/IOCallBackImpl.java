@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import io.socket.IOAcknowledge;
@@ -27,7 +29,13 @@ public class IOCallBackImpl implements IOCallback {
 				Log.e("모왔냐", jsOb.toString());
 				logedIn=jsOb.getBoolean("logedIn");
 				if(logedIn){
-					GlobalVar.socket.addHeader("midx",jsOb.getString("MIDX"));
+					GlobalVar.mgIdx=jsOb.getString("midx");
+					GlobalVar.mgName=jsOb.getString("mname");
+					//효석이가 가입처리끝내면 마져 ㄱㄱ
+					String fileData=jsOb.getString("먼가이미지명");
+					byte[] fileBytes=fileData.getBytes();
+					Bitmap tmpImageBitmap=BitmapFactory.decodeByteArray(fileBytes,0,fileBytes.length);
+					GlobalVar.mgImage=tmpImageBitmap;
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
