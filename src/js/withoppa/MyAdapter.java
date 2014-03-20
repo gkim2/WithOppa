@@ -37,7 +37,7 @@ public class MyAdapter extends BaseAdapter {
   }
   
   ImageView image = (ImageView)convertView.findViewById(R.id.image);
-  image.setImageResource(arrData.get(position).getImage());
+  image.setImageBitmap(arrData.get(position).getImage());
   
   TextView name = (TextView)convertView.findViewById(R.id.name);
   name.setText(arrData.get(position).getName());

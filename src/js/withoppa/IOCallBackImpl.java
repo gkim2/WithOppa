@@ -1,5 +1,6 @@
 package js.withoppa;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ public class IOCallBackImpl implements IOCallback {
 	
 	boolean logedIn=false;
 	boolean tried=false;
+	JSONArray contentsJsArray=null;
 
 	@Override
 	public void on(String event, IOAcknowledge ack, Object... args) {
@@ -31,7 +33,16 @@ public class IOCallBackImpl implements IOCallback {
 				e.printStackTrace();
 			}
 		}else if("getContents".equals(event)){
-			
+			Log.e("getContents 콜백받음", "getContents 콜백받음");
+			JSONObject jsOb=null;
+			try{
+				jsOb=(JSONObject) args[0];
+				Log.e("모왔냐", jsOb.toString());
+				//컨텐츠가 제이슨어레이일 가정으로
+				contentsJsArray=jsOb.getJSONArray("contents");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override

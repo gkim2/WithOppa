@@ -57,6 +57,11 @@ public class LoginActivity extends Activity {
 		
 		Log.e("쓰레드 남았냐",String.valueOf(GlobalVar.userLoginTask!=null));
 		Log.e("소켓 남았냐",String.valueOf(GlobalVar.socket!=null));
+		if(GlobalVar.userLoginTask!=null) GlobalVar.userLoginTask=null;
+		if(GlobalVar.socket!=null){
+			GlobalVar.socket.disconnect();
+			GlobalVar.socket=null;
+		}
 
 		setContentView(R.layout.activity_login);
 		
