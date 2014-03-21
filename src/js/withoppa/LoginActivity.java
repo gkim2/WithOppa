@@ -49,7 +49,6 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-	
 	public static Activity staticLoginAct;
 	
 	@Override
@@ -253,6 +252,7 @@ public class LoginActivity extends Activity {
 					if(ioCallBackImpl.tried){
 						break;
 					}
+					
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
