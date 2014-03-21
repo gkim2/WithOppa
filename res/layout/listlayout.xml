@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="#ffc0cb"
+    android:orientation="vertical"
+    android:padding="10dp"
     >
-    <TextView
+    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        >
+        <LinearLayout
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:layout_weight="1"      
+             
+            >
+            <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,11 +29,12 @@
         android:layout_alignParentTop="true"
         android:padding="5dp"
         android:textSize="13sp" />
-    
-    <TextView
+            <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
+        
         android:layout_height="wrap_content"
+      
         android:layout_alignLeft="@+id/name"
         android:layout_below="@+id/name"
         android:padding="5dp"
@@ -30,6 +48,40 @@
         android:layout_below="@+id/date"
         android:padding="5dp"
         android:textSize="13sp" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="right"
+            >
+			    <Button
+			        android:id="@+id/modifybtn"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignBottom="@+id/delbtn"
+			        android:layout_toLeftOf="@+id/delbtn"
+			        android:background="@android:drawable/btn_default_small"
+			        android:text="수정" 
+			        android:layout_gravity="top|right"/>
+			    
+			
+			    <Button
+			        android:id="@+id/delbtn"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:layout_alignParentTop="true"
+			        android:background="@android:drawable/btn_default_small"
+			        android:text="삭제" 
+			        android:layout_gravity="top|right"/>
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+    
     
     <ImageView
         android:id="@+id/image"
@@ -41,24 +93,9 @@
         android:layout_below="@+id/comment"
         android:contentDescription="image"
         android:paddingBottom="30dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop" 
+         android:padding="7dp"/>
 
-    <Button
-        android:id="@+id/modifybtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/delbtn"
-        android:layout_toLeftOf="@+id/delbtn"
-        android:background="@android:drawable/btn_default_small"
-        android:text="수정" />
-
-    <Button
-        android:id="@+id/delbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:drawable/btn_default_small"
-        android:text="삭제" />
+    
    
-</RelativeLayout>
+</LinearLayout>

@@ -7,6 +7,10 @@ import io.socket.SocketIOException;
 
 import org.json.JSONObject;
 
+import song.writeActivity;
+
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,7 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnTouchListener{
 	 
 	//좌우메뉴 맴버필드
 	boolean toggleLimit;
@@ -33,6 +37,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	float firstY;
 	float lastX;
 	float lastY;
+	
+	TextView text1 , text2;
+	TextView selection;
+	
+	int mColor =0;
 
 	private DisplayMetrics metrics;
 	private LinearLayout slidingPanel;
@@ -89,9 +98,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         fragmentReplace(fragmentIndex);
         //버튼 리스너 등록
         TextView test1Btn = (TextView) findViewById(R.id.test1_btn);
-        test1Btn.setOnClickListener(this);
+        test1Btn.setOnTouchListener(this);
 		TextView test2Btn = (TextView) findViewById(R.id.test2_btn);
-		test2Btn.setOnClickListener(this);
+		test2Btn.setOnTouchListener(this);
         
 	}
 
@@ -294,7 +303,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		return newFragment;
 	}
 	
-	@Override
+	/*@Override
 	public void onClick(View v) {
 		
 		switch (v.getId()) {
@@ -309,6 +318,63 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 			break;
 		}
 		
+	}*/
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		//현재 어떤 뷰가 선택 되었는지 가져온다.
+				selection = (TextView)findViewById(v.getId());
+
+				
+				/*--------------공용으로 적용될 부분 클릭시 글씨 색깔 반전  -----*/
+				 
+				if(event.getAction()==MotionEvent.ACTION_DOWN){
+		            if(selection.getClass()==v.getClass()){
+		            	mColor = selection.getTextColors().getDefaultColor();
+		                selection.setTextColor(Color.WHITE);
+		              //  Toast.makeText(this, "현재색상은" +mColor , 1).show();
+		            }
+		        }
+		        
+		        if(event.getAction()==MotionEvent.ACTION_UP){
+		            if(selection.getClass()==v.getClass()){
+		                selection.setTextColor(mColor);
+		            }
+		        }
+		        /*---------------개별적으로 적용될 파트---------------- -----*/
+		        
+		        switch (v.getId()) {
+
+				case R.id.test1_btn:
+					Intent intent = new Intent(MainActivity.this , writeActivity.class);
+					startActivity(intent);
+					
+					break;
+				case R.id.test2_btn:
+					fragmentIndex = FRAGMENT_TEST;
+					fragmentReplace(fragmentIndex);
+					break;
+				}
+		        /*---------------------------------------------------*/
+		return false;
 	}
+	boolean approach = true;
+	
+	public void writeIcon(View v){	
+		Intent intent = new Intent(MainActivity.this , writeActivity.class);
+		approach = true;
+		intent.putExtra("approach", approach);
+		startActivity(intent);
+		}
+	
+	
+	public void picIcon(View v){
+		Intent intent = new Intent(MainActivity.this , writeActivity.class);
+		approach = false;
+		intent.putExtra("approach", approach);
+		startActivity(intent);
+		
+		
+	}
+	
 	
 }

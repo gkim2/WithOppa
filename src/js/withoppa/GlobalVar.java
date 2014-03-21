@@ -1,6 +1,7 @@
 package js.withoppa;
 
 import android.graphics.Bitmap;
+import song.writeActivity;
 import io.socket.SocketIO;
 
 public class GlobalVar {
@@ -9,4 +10,5 @@ public class GlobalVar {
 	public static Bitmap mgImage=null;
 	public static String mgIdx=null;
 	public static String mgName=null;
+	public static writeActivity.UpDataTask upDataTask = null;
 }

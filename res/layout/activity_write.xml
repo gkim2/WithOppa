@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#999999"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="받는 사람 : "/>
+            
+            <TextView android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/resId"
+                android:text="dummy"
+                android:layout_weight="1"
+                />
+            
+				<LinearLayout android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:gravity="right">
+		            <ImageButton
+		                android:layout_width="match_parent" 
+		                android:layout_height="match_parent"
+		                android:background="@drawable/walk"
+		                android:onClick="toUsers"
+		                />
+	      		</LinearLayout>	
+            
+        </LinearLayout>
+        
+        
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        >
+        <EditText
+	    android:id="@+id/mText" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    
+	    android:hint=""
+	    android:gravity="top"
+	    android:scrollbars="vertical"/>
+        <ImageView android:layout_width="wrap_content"  		
+            android:layout_height="wrap_content"        
+            android:id="@+id/takePicture"
+            android:scaleType="center"
+            android:padding="4dp"
+            android:onClick="picture"
+            />
+        
+    </LinearLayout>
+	
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+       android:padding="5dp"
+        android:orientation="horizontal"     
+        android:gravity="bottom"
+        >
+        
+		<ImageView android:layout_width="match_parent"
+		    android:maxWidth="32dp"
+		    android:layout_height="match_parent"
+		    android:maxHeight="32dp"
+		    android:background="@drawable/photo"
+		    android:onClick="picture"
+		    />
+        
+    </LinearLayout>
+	
+</LinearLayout>

@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
+    <uses-permission android:name="android.permission.CAMERA" />
     
     <application
         android:allowBackup="true"
@@ -36,6 +36,10 @@
         </activity>
 		<activity android:name="js.withoppa.SignUpActivity"
 		    android:theme="@android:style/Theme.NoTitleBar">
+		</activity>
+		<activity android:name="song.writeActivity"
+		    android:logo="@drawable/back_icon"
+		    android:theme="@android:style/Theme.Holo.Light">
 		</activity>
     </application>
 
