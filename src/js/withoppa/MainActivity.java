@@ -125,7 +125,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 				new OnTouchListener() {
 					@Override
 					public boolean onTouch(View arg0, MotionEvent arg1) {
-						menuLeftSlideAnimationToggle();
+						if(arg1.getAction() == MotionEvent.ACTION_UP){
+							menuLeftSlideAnimationToggle();
+						}
 						return true;
 					}
 			});
@@ -180,7 +182,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 
 						@Override
 						public boolean onTouch(View arg0, MotionEvent arg1) {
-							menuRightSlideAnimationToggle();
+							if(arg1.getAction() == MotionEvent.ACTION_UP){
+								menuRightSlideAnimationToggle();
+							}
 							return true;
 						}
 					});
