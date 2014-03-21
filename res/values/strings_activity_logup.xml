@@ -1,0 +1,13 @@
+<resources>
+    <!-- Strings related to login -->
+    <string name="signup_name">이름</string>
+    <string name="signup_email">이메일</string>
+    <string name="signup_password">비밀번호(6자리 이상)</string>
+    <string name="signup_password_ch">비밀번호 확인</string>
+    <string name="action_sign_up"><b>가입하기</b></string>
+    <string name="login_progress_signing_up">가입하는중&#8230;</string>
+	<string name="signup_consent">
+        가입하기를 클릭하면 이 어플의 약관에 동의하고 위치추적 및 SMS스펨 서비스를 제공하며
+       회원님의 정보를 상업적으로 이용할수 있음을 알려드립니다.
+    </string>
+</resources>

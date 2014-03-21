@@ -223,6 +223,7 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 		protected void onPostExecute(Boolean result) {
 			if(result){
 				Log.e("종료하자","321");
+				signUpEnd = false;
 				socket.disconnect();
 				socket = null;
 				SignUpActivity.this.finish();
