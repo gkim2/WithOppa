@@ -116,10 +116,12 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 	        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 	        String picturePath = cursor.getString(columnIndex);
 	        BitmapFactory.Options options = new BitmapFactory.Options();
-	        Bitmap testImge = BitmapFactory.decodeFile(picturePath, options);
 	        
 	        options.inJustDecodeBounds = true;
-	        options.inSampleSize = 4;
+	        Bitmap testImge = BitmapFactory.decodeFile(picturePath, options);
+	        options.inSampleSize = 3;
+	        options.inJustDecodeBounds=false;
+	        testImge = BitmapFactory.decodeFile(picturePath, options);
 	        
 	        ByteArrayOutputStream  byteArray = new ByteArrayOutputStream();
 	        testImge.compress(CompressFormat.JPEG, 100, byteArray);
