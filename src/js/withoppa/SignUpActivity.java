@@ -58,11 +58,13 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 	private boolean emailCheck;
 	private boolean pw1Check;
 	private boolean pw2Check;
-	private Boolean signUpEnd=false;
-	private UserSignupTask signUpTask=null;
+	private Boolean signUpEnd = false;
+	private UserSignupTask signUpTask = null;
 	
 	private SocketIO socket;
-	private boolean signUp=false;
+	private Boolean threadAnd = false;
+	private boolean signUp = false;
+	private int sleepTime;
 	
 	
 	@Override
@@ -120,7 +122,7 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 	        options.inJustDecodeBounds = true;
 	        Bitmap testImge = BitmapFactory.decodeFile(picturePath, options);
 	        options.inSampleSize = 3;
-	        options.inJustDecodeBounds=false;
+	        options.inJustDecodeBounds = false;
 	        testImge = BitmapFactory.decodeFile(picturePath, options);
 	        
 	        ByteArrayOutputStream  byteArray = new ByteArrayOutputStream();
@@ -133,17 +135,23 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 	//가입처리
 	public void signUp(View view){
 		if(!signUpEnd){
+			Log.e("가입ㄱ","가입ㄱ");
 			sName = signUpName.getText().toString();
 			sEmail = signUpEmail.getText().toString();
 			sPassword = signUpPw1.getText().toString();
 			sPassword_ch = signUpPw2.getText().toString();
 			pw2Check = sPassword.equals(sPassword_ch);
+			emailCheck = SignUpCheck.emailCheck(sEmail);
 			if(!pw2Check){
 				Toast toast = Toast.makeText(SignUpActivity.this,"비밀번호가 다릅니다.", 0);
 				toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
 				toast.show();
+			}else if(!emailCheck){
+				Toast toast = Toast.makeText(SignUpActivity.this,"메일이 올바르지 않습니다.", 0);
+				toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+				toast.show();
 			}else if(nameCheck&emailCheck&pw1Check&pw2Check){
-				signUpEnd = true;
+				Log.e("가입ㄱㄱ","가입ㄱㄱ");
 				signUpTask = new UserSignupTask();
 				signUpTask.execute((Void) null);
 			}else{
@@ -159,14 +167,21 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				String host = "http://192.168.0.175";
+				String host = "http://192.168.200.1";
 				socket = new SocketIO(host);
 				socket.connect(new IOCallback() {
 					@Override
 					public void on(String event, IOAcknowledge ack, Object... args) {
 						if("signUp".equals(event)){
 							Log.e("signUp 콜백받음", "signUp 콜백받음");
-							signUp=true;
+							sleepTime = 2000;
+							threadAnd = true;
+							signUp = true;
+				        }else if("reSignUp".equals(event)){
+				        	Log.e("reSignUp 콜백받음", "reSignUp 콜백받음");
+				        	sleepTime = 500;
+				        	threadAnd = true;
+				        	signUp = false;
 				        }
 					}
 					@Override
@@ -201,8 +216,8 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 					socket.emit("join",data);
 					while(true){
 						try {
-							Thread.sleep(2000);
-							if(signUp){
+							Thread.sleep(sleepTime);
+							if(threadAnd){
 								break;
 							}
 						} catch (InterruptedException e) {
@@ -229,8 +244,25 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 				socket.disconnect();
 				socket = null;
 				SignUpActivity.this.finish();
+			}else {
+				Toast toast = Toast.makeText(SignUpActivity.this,"아이디가 중복됩니다.", 0);
+				toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+				toast.show();
+				threadAnd = false;
+				signUpEnd = false;
+				signUpTask=null;
+				socket.disconnect();
+				socket=null;
 			}
 			super.onPostExecute(result);
+		}
+		
+		@Override
+		protected void onCancelled() {
+			signUpTask=null;
+			socket.disconnect();
+			socket=null;
+			Log.e("onCancelled()실행", "onCancelled()실행");
 		}
 		
 	}
@@ -292,6 +324,5 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 			}
 		}
 	}
-	
 	
 }
