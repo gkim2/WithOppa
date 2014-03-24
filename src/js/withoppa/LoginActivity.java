@@ -232,7 +232,7 @@ public class LoginActivity extends Activity {
 			if(GlobalVar.socket==null){
 				Log.e("쓰레드 생성자", "쓰레드 생성자");
 				try {
-					String host = "http://192.168.200.1";
+					String host = "http://192.168.0.175";
 					GlobalVar.socket = new SocketIO(host);
 					ioCallBackImpl=new IOCallBackImpl();
 					GlobalVar.socket.connect(ioCallBackImpl);

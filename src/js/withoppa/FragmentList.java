@@ -60,13 +60,16 @@ public class FragmentList extends Fragment{
 				e.printStackTrace();
 			}
 			contentsJsArray=GlobalVar.userLoginTask.ioCallBackImpl.contentsJsArray;
-			if(contentsJsArray!=null) break;
+			if(contentsJsArray!=null) {
+				break;
+			}
 		}
 		for(int i=0;i<contentsJsArray.length();i++){
 			try {
 				JSONObject tmpJsOb = contentsJsArray.getJSONObject(i);
 				MyData tmpContent=new MyData();
-				tmpContent.setName(tmpJsOb.getString("mgName"));
+				tmpContent.setMgImage(GlobalVar.mgImage);
+				tmpContent.setName(GlobalVar.mgName);
 				String tmpDateString=tmpJsOb.getString("regdate");
 				DateFormat tmpFormatB=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 				DateFormat tmpFormatA=new SimpleDateFormat("yyyy'년'MM'월'dd'일' a hh'시'mm'분'");
@@ -76,14 +79,14 @@ public class FragmentList extends Fragment{
 				tmpContent.setComment(tmpJsOb.getString("textData"));
 				//String fileName=tmpJsOb.getString("filename");
 				//int fileSize=Integer.parseInt(tmpJsOb.getString("filesize"));
-				String fileData=tmpJsOb.getString("file");
-				byte[] fileBytes=fileData.getBytes();
-				Bitmap tmpImageBitmap=BitmapFactory.decodeByteArray(fileBytes,0,fileBytes.length);
-				tmpContent.setImage(tmpImageBitmap);
-				String mgFileData=tmpJsOb.getString("mgImage");
-				byte[] mgFileBytes=mgFileData.getBytes();
-				Bitmap tmpMgImageBitmap=BitmapFactory.decodeByteArray(mgFileBytes,0,mgFileBytes.length);
-				tmpContent.setMgImage(tmpMgImageBitmap);
+				//String fileData=tmpJsOb.getString("file");
+				//byte[] fileBytes=fileData.getBytes();
+				//Bitmap tmpImageBitmap=BitmapFactory.decodeByteArray(fileBytes,0,fileBytes.length);
+				//tmpContent.setImage(tmpImageBitmap);
+				//String mgFileData=tmpJsOb.getString("mgImage");
+				//byte[] mgFileBytes=mgFileData.getBytes();
+				//Bitmap tmpMgImageBitmap=BitmapFactory.decodeByteArray(mgFileBytes,0,mgFileBytes.length);
+				//tmpContent.setMgImage(tmpMgImageBitmap);
 				tmpContent.setMgIdx(tmpJsOb.getString("mgIdx"));
 				arrData.add(tmpContent);
 			} catch (JSONException e) {

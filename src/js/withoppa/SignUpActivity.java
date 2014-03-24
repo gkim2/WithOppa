@@ -167,7 +167,7 @@ public class SignUpActivity extends Activity implements OnTouchListener,OnFocusC
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				String host = "http://192.168.200.1";
+				String host = "http://192.168.0.175";
 				socket = new SocketIO(host);
 				socket.connect(new IOCallback() {
 					@Override

@@ -1,5 +1,6 @@
 package js.withoppa;
 
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,8 +33,8 @@ public class IOCallBackImpl implements IOCallback {
 					GlobalVar.mgIdx=jsOb.getString("midx");
 					GlobalVar.mgName=jsOb.getString("mname");
 					//효석이가 가입처리끝내면 마져 ㄱㄱ
-					String fileData=jsOb.getString("먼가이미지명");
-					byte[] fileBytes=fileData.getBytes();
+					String fileData=jsOb.getString("mimage");
+					byte[] fileBytes = Base64.decodeBase64(fileData.getBytes());
 					Bitmap tmpImageBitmap=BitmapFactory.decodeByteArray(fileBytes,0,fileBytes.length);
 					GlobalVar.mgImage=tmpImageBitmap;
 				}

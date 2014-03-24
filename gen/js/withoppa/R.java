@@ -33,16 +33,16 @@ public final class R {
         public static final int UpName_input=0x7f080010;
         public static final int UpPw1_input=0x7f080012;
         public static final int UpPw2_input=0x7f080013;
-        public static final int action_forgot_password=0x7f080020;
-        public static final int action_settings=0x7f080021;
+        public static final int action_forgot_password=0x7f080022;
+        public static final int action_settings=0x7f080023;
         public static final int bt_left=0x7f080016;
-        public static final int comment=0x7f08001c;
-        public static final int date=0x7f08001b;
-        public static final int delbtn=0x7f08001f;
+        public static final int comment=0x7f08001d;
+        public static final int date=0x7f08001c;
+        public static final int delbtn=0x7f080020;
         public static final int email=0x7f080003;
         public static final int ic_leftslidemenu=0x7f08000b;
         public static final int ic_rightslidemenu=0x7f080009;
-        public static final int image=0x7f08001d;
+        public static final int image=0x7f08001e;
         public static final int leftMenuPanel=0x7f08000a;
         public static final int leftslidemenu=0x7f080017;
         public static final int list=0x7f080015;
@@ -52,8 +52,8 @@ public final class R {
         public static final int login_form=0x7f080002;
         public static final int login_status=0x7f080000;
         public static final int login_status_message=0x7f080001;
-        public static final int modifybtn=0x7f08001e;
-        public static final int name=0x7f08001a;
+        public static final int modifybtn=0x7f08001f;
+        public static final int name=0x7f08001b;
         public static final int password=0x7f080004;
         public static final int rightMenuPanel=0x7f080008;
         public static final int signUp_btn=0x7f080014;
@@ -62,7 +62,9 @@ public final class R {
         public static final int slidingPanel=0x7f08000c;
         public static final int test1_btn=0x7f080018;
         public static final int test2_btn=0x7f080019;
+        public static final int thumImage=0x7f08001a;
         public static final int thumImg=0x7f08000f;
+        public static final int userList=0x7f080021;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;

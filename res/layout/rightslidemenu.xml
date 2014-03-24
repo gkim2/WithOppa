@@ -6,11 +6,11 @@
     android:background="#ff393c46"
     android:orientation="vertical" >
 
-    <TextView
+    <ListView
+        android:id="@+id/userList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Right"
         android:textColor="#ffffffff" />
 
 </RelativeLayout>

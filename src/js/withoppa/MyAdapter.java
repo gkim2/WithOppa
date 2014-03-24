@@ -36,6 +36,10 @@ public class MyAdapter extends BaseAdapter {
    convertView = inflater.inflate(R.layout.listlayout, parent, false);
   }
   
+  ImageView thumImage = (ImageView)convertView.findViewById(R.id.thumImage);
+  thumImage.setImageBitmap(arrData.get(position).getImage());
+  thumImage.invalidate();
+  
   ImageView image = (ImageView)convertView.findViewById(R.id.image);
   image.setImageBitmap(arrData.get(position).getImage());
   
@@ -49,6 +53,7 @@ public class MyAdapter extends BaseAdapter {
   email.setText(arrData.get(position).getComment());
   
   Button modifyBtn = (Button)convertView.findViewById(R.id.modifybtn);
+  
   modifyBtn.setOnClickListener(new OnClickListener() {   
    public void onClick(View v) {
     Toast.makeText(context, "수정합니다.", Toast.LENGTH_SHORT).show();
